@@ -1,0 +1,48 @@
+"""
+methods.py
+
+Functions to parse and analyze Microsoft 365 audit logs for security monitoring.
+"""
+
+import pandas as pd
+
+def load_logs(filepath):
+    """
+    Load audit logs from a CSV file.
+
+    Parameters:
+    filepath (str): Path to the CSV log file.
+
+    Returns:
+    pd.DataFrame: DataFrame containing the raw log data.
+    """
+    return pd.read_csv(filepath)
+
+def parse_auth_events(df):
+    """
+    Extract authentication events from the log DataFrame.
+
+    Parameters:
+    df (pd.DataFrame): Raw audit logs.
+
+    Returns:
+    pd.DataFrame: Filtered DataFrame with authentication-related events.
+    """
+    # Example filter - customize columns & criteria
+    auth_events = df[df['Activity'] == 'UserLoggedIn']
+    return auth_events[['Timestamp', 'UserId', 'IPAddress', 'Status']]
+
+def extract_forwarding_rules(df):
+    """
+    Identify mail forwarding rule creation events.
+
+    Parameters:
+    df (pd.DataFrame): Raw audit logs.
+
+    Returns:
+    pd.DataFrame: DataFrame of forwarding rules with user and target info.
+    """
+    forwarding_rules = df[df['Activity'].str.contains('CreateInboxRule', na=False)]
+    return forwarding_rules[['Timestamp', 'UserId', 'RuleName', 'TargetAddress']]
+
+# Add more parsing functions below as needed...
