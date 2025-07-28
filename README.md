@@ -60,7 +60,7 @@ source venv/bin/activate
 Install required Python packages:
 ```bash
 pip install pandas matplotlib
-``
+```
 Run the analysis script:
 ```bash
 python3 m365_parser.py
