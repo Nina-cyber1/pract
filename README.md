@@ -39,8 +39,8 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 ---
 ## Running it
 Clone the repository and enter the project folder:
-git clone https://github.com/Nina-cyber1/pract.git
-cd pract
+-git clone https://github.com/Nina-cyber1/pract.git
+-cd pract
 Place your Microsoft 365 audit log CSV file in this folder. The file should have a column named AuditData with JSON-formatted strings.
 
 Example filename:20200604_unified_auditlogs.csv
