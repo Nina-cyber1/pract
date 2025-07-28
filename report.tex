@@ -1,16 +1,69 @@
 \documentclass{article}
-\title{Microsoft 365 Log Analysis}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{amsmath}
+
+\title{Microsoft 365 Log Analysis Internship Project}
 \author{Nina Liu}
+\date{Summer 2025}
+
 \begin{document}
+
 \maketitle
 
-\section{Overview}
-This project analyzes Microsoft 365 audit logs to detect authentication issues and security risks.
+\section*{Project Overview}
 
-\section{Methods}
-We parsed CSV logs using a Python script. Failed logins were extracted as a key risk signal.
+This internship project involved analyzing Microsoft 365 Unified Audit Log data provided by LMG. The goal was to extract login events, detect failed login attempts, identify suspicious IP addresses, and generate readable reports to aid cybersecurity investigations.
 
-\section{Results}
-The script found multiple failed logins. See summary.txt and failed_logins.csv for results.
+\section*{Data Processing and Methods}
+
+The audit logs were supplied in CSV format, with each row containing JSON-formatted strings under the column \texttt{AuditData}. Using Python and the \texttt{pandas} library, the JSON data was parsed to extract relevant fields including user ID, operation type, client IP address, and timestamp.
+
+Login events were filtered by operation type:
+\begin{itemize}
+    \item \texttt{UserLoggedIn} for successful logins
+    \item \texttt{UserLoginFailed} for failed logins
+\end{itemize}
+
+Suspicious failed login attempts were identified as those originating from the same IP address with more than three failures.
+
+\section*{Results}
+
+A total of \textbf{637} audit records were parsed. Out of these, there were:
+
+\begin{itemize}
+    \item \textbf{17} successful login events
+    \item \textbf{582} failed login attempts
+    \item \textbf{581} suspicious failed login attempts originating from IPs with more than 3 failures
+\end{itemize}
+
+\subsection*{Suspicious Email Addresses}
+
+The top 10 suspicious email addresses with the highest number of failed login attempts were:
+
+\begin{itemize}
+    \item \texttt{ademin@hackmeinc.com}: 580 failed attempts
+    \item \texttt{AzureADademin@hackmeinc.com}: 1 failed attempt
+    % Add your actual top email results here
+\end{itemize}
+
+\section*{Visualization}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{suspicious_logins_bar_chart.png}
+    \caption{Top 10 Suspicious Email Addresses by Failed Login Attempts}
+    \label{fig:bar_chart}
+\end{figure}
+
+\section*{Conclusion}
+
+The analysis revealed a significant number of failed login attempts associated with a small set of suspicious email addresses, potentially indicating targeted account attacks or brute-force attempts. This information can be used to prioritize security monitoring and response.
+
+\bigskip
+
+\noindent\textbf{Future Work:} Additional analysis could include temporal patterns of login attempts, integration with IP geolocation, and correlation with other audit log event types.
 
 \end{document}
