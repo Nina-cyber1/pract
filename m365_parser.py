@@ -59,6 +59,17 @@ def main():
     for email, count in suspicious_counts.items():
         print(f"- {email}: {count} failed attempts")
 
+    top_10 = suspicious_counts.head(10)
+    plt.figure(figsize=(10, 6))
+    plt.bar(top_10.index, top_10.values, color='crimson')
+    plt.title('Top 10 Suspicious Email Addresses by Failed Login Attempts')
+    plt.xlabel('Email Address')
+    plt.ylabel('Failed Login Attempts')
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.savefig("suspicious_logins_bar_chart.png")
+    plt.close()
+    
     print("\nAnalysis complete!")
     print(f"✔️ Parsed {len(parsed_df)} records.")
     print(f"✔️ Saved {len(successful_logins)} successful logins.")
