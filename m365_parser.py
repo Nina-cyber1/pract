@@ -2,6 +2,11 @@ import pandas as pd
 import json
 import sys
 import matplotlib.pyplot as plt
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+
 def parse_audit_json(row):
     try:
         data = json.loads(row)
