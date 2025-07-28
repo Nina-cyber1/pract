@@ -45,16 +45,27 @@ Clone the repository and enter the project folder:
 git clone https://github.com/Nina-cyber1/pract.git
 cd pract
 ```
-Place your Microsoft 365 audit log CSV file in this folder. The file should have a column named `AuditData` with JSON-formatted strings.
+Copy your Microsoft 365 audit log CSV file into the pract folder.
 
-Example filename:  
-`20200604_unified_auditlogs.csv`
+The file must contain a column named AuditData with JSON strings.
 
-Run the main analysis script:
+Example file: 20200604_unified_auditlogs.csv
 
+(Optional but recommended) Create and activate a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install required Python packages:
+```bash
+pip install pandas matplotlib
+``
+Run the analysis script:
 ```bash
 python3 m365_parser.py
 ```
+
 ## Prerequisites
 
 Make sure you have **Python 3** installed.
@@ -64,5 +75,5 @@ Install required Python libraries by running:
 ```bash
 pip install -r requirements.txt
 pip install matplotlib
-
+```
 
