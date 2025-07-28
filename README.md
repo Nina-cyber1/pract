@@ -44,6 +44,7 @@ Make sure Python 3 and pip are installed. Then run:
 
 ```bash
 pip install -r requirements.txt
+pip install matplotlib
 ```
 
 ---
