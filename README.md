@@ -33,7 +33,7 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 
 **Example filename:** `20200604_unified_auditlogs.csv`
 
->  Note: The CSV must be exported from Microsoft Purview and contain a column called `AuditData` with JSON-formatted strings.
+> Note: The CSV must be exported from Microsoft Purview and contain a column called `AuditData` with JSON-formatted strings.
 
 ---
 
@@ -43,6 +43,7 @@ Make sure Python 3 and pip are installed. Then run:
 
 ```bash
 pip install -r requirements.txt
+```
 
 ---
 
@@ -52,4 +53,4 @@ Run the analysis with this command:
 
 ```bash
 python3 m365_parser.py 20200604_unified_auditlogs.csv
-
+```
