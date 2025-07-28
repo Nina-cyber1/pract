@@ -5,20 +5,21 @@
 **Organization:** [LMG]
 
 ---
+# Microsoft 365 Audit Log Analysis Tool
 
-##  Project Overview
+This project analyzes Microsoft 365 audit log data to extract user login events, detect failed login attempts, and identify suspicious IP addresses based on excessive failures.
 
-This project focuses on analyzing Microsoft 365 audit log data to identify and summarize key user and system activities. The goal is to provide clear, human-readable reports that can support security investigations and compliance monitoring. 
+## 🔍 What It Does
 
-Key areas of focus include:
-
-- User authentication events (successful and failed logins)
-- MFA registration and setting changes
-- Mail forwarding rules (auto-forwarding and potential exfiltration)
-- Mailbox and file access logs
-- File downloads and sharing events
-- Administrative actions
-
+- Parses a unified audit log CSV from Microsoft 365.
+- Extracts key fields like user ID, timestamp, login result, IP address, and user agent.
+- Separates successful and failed login attempts.
+- Flags suspicious failed logins from IPs with more than 3 failures.
+- Outputs:
+  - `successful_logins.csv`
+  - `failed_logins.csv`
+  - `suspicious_failed_logins.csv`
+  - A printed summary of suspicious user activity
 ---
 
 ##  Tools & Technologies
@@ -30,20 +31,22 @@ Key areas of focus include:
 - Optional: `Jupyter Notebook` for interactive exploration
 
 ---
+Place your Microsoft 365 audit log CSV file in the root of this project folder.
+my file name is: 20200604_unified_auditlogs.csv
 
-## 📁Project Structure
-m365-log-analysis/
-├── data/ # Sample or anonymized log files
-├── scripts/ # Python scripts for parsing and analysis
-│ └── log_parser.py # Main script to parse and summarize logs
-├── outputs/ # Output reports (e.g., CSVs or JSON)
-├── README.md # Project documentation
-├── requirements.txt # Python dependencies
-└── .gitignore # Ignored files/folders
+> ⚠️ Note: This CSV must be exported from the Microsoft Purview Audit portal and contain a column called `AuditData` with JSON strings.
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/Nina-cyber1/m365-log-analysis.git
-   cd m365-log-analysis
+---
+
+
+
+### 1. Install Python 
+
+Make sure Python and `pip` are installed.
+
+### 2. Install required libraries
+
+```bash
+pip install pandas
 
 
