@@ -40,3 +40,10 @@ m365-log-analysis/
 ├── README.md # Project documentation
 ├── requirements.txt # Python dependencies
 └── .gitignore # Ignored files/folders
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/Nina-cyber1/m365-log-analysis.git
+   cd m365-log-analysis
+
+
