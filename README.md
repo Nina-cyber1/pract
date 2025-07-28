@@ -37,6 +37,15 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 > Note: The CSV must be exported from Microsoft Purview and contain a column called `AuditData` with JSON-formatted strings.
 
 ---
+## Running it
+Clone the repository and enter the project folder:
+git clone https://github.com/Nina-cyber1/pract.git
+cd pract
+Place your Microsoft 365 audit log CSV file in this folder. The file should have a column named AuditData with JSON-formatted strings.
+
+Example filename:20200604_unified_auditlogs.csv
+
+Run the main analysis script
 
 ## Prerequisites
 
@@ -47,3 +56,5 @@ Install required Python libraries by running:
 ```bash
 pip install -r requirements.txt
 pip install matplotlib
+
+
