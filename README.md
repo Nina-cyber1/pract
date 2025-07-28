@@ -39,7 +39,7 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 
 Make sure you have Python 3 and pip installed. Then run:
 
-```bash
+
 pip install -r requirements.txt
 
 ## Run the Script
