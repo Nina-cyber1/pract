@@ -22,6 +22,7 @@ This project analyzes Microsoft 365 Unified Audit Log data to:
 - Python 3.x  
 - pandas  
 - Standard libraries: datetime, re, json, etc.  
+- matplotlib (for plotting)  
 - (Optional) LaTeX for report generation  
 - Sample Microsoft 365 Unified Audit Log (CSV format)  
 
@@ -29,7 +30,7 @@ This project analyzes Microsoft 365 Unified Audit Log data to:
 
 ## Input File
 
-Place your Microsoft 365 audit log CSV file in the root of the project.  
+Place your Microsoft 365 audit log CSV file in the root of the project.
 
 **Example filename:** `20200604_unified_auditlogs.csv`
 
@@ -39,27 +40,10 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 
 ## Prerequisites
 
-You need **Python 3** installed.
+Make sure you have **Python 3** installed.
 
-You also need to install required Python libraries. On most systems, you can run:
+Install required Python libraries by running:
 
 ```bash
 pip install -r requirements.txt
 pip install matplotlib
-
----
-## How to run the analysis
-
-1. Clone the repository and enter the folder:
-
-git clone https://github.com/Nina-cyber1/pract.git
-cd pract
-
-Place your Microsoft 365 audit log CSV file in this folder.
-
-The file should be exported from Microsoft Purview and contain a column named `AuditData` with JSON-formatted strings.
-
-Example filename:20200604_unified_auditlogs.csv
-
-
-Run the main analysis script:python3 m365_parser.py
