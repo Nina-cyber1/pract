@@ -54,7 +54,7 @@ Run the main analysis script:
 
 ```bash
 python3 m365_parser.py
-
+```
 ## Prerequisites
 
 Make sure you have **Python 3** installed.
