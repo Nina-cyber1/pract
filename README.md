@@ -82,6 +82,8 @@ This code generates suspicious users, successful and failed logins, and a bar gr
 
 Additional notes:
 
-    If you want to build the LaTeX report, you can run:
+If you want to build the LaTeX report, you can run:
+```bash
 
 pdflatex report.tex
+```
