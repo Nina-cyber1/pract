@@ -34,32 +34,32 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 **Example filename:** `20200604_unified_auditlogs.csv`
 
 > Note: The CSV must be exported from Microsoft Purview and contain a column called `AuditData` with JSON-formatted strings.
-> 
 
 ---
 
-## Installation
+## Prerequisites
 
-Make sure Python 3 and pip are installed. Then run:
+You need **Python 3** installed.
+
+You also need to install required Python libraries. On most systems, you can run:
 
 ```bash
 pip install -r requirements.txt
 pip install matplotlib
-```
 
----
 
-## Run the Script
+## How to run the analysis
 
-Run the analysis with this command:
+1. Clone the repository and enter the folder:
 
-```bash
-python3 m365_parser.py 20200604_unified_auditlogs.csv
-```
-##  Output
-When the script is run, it will:
-- Save login analysis CSVs
-- Generate a bar chart: `suspicious_logins_bar_chart.png`
+git clone https://github.com/Nina-cyber1/pract.git
+cd pract
 
-This chart is included in the repo. You can view it above or regenerate it by running the script.
+Place your Microsoft 365 audit log CSV file in this folder.
 
+The file should be exported from Microsoft Purview and contain a column named `AuditData` with JSON-formatted strings.
+
+Example filename:20200604_unified_auditlogs.csv
+
+
+Run the main analysis script:python3 m365_parser.py
