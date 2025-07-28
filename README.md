@@ -56,3 +56,10 @@ Run the analysis with this command:
 ```bash
 python3 m365_parser.py 20200604_unified_auditlogs.csv
 ```
+##  Output
+When the script is run, it will:
+- Save login analysis CSVs
+- Generate a bar chart: `suspicious_logins_bar_chart.png`
+
+This chart is included in the repo. You can view it above or regenerate it by running the script.
+
