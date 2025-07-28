@@ -1,0 +1,4 @@
+RecordType,Operation,UserId,Date
+AzureActiveDirectory,UserLoginFailed,user1@example.com,2024-07-01
+AzureActiveDirectory,UserLoggedIn,user2@example.com,2024-07-01
+AzureActiveDirectory,UserLoginFailed,user3@example.com,2024-07-02
