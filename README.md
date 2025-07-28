@@ -77,3 +77,6 @@ pip install -r requirements.txt
 pip install matplotlib
 ```
 
+## Output
+This code generates suspicious users, successful and failed logins, 
+
