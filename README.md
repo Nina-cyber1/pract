@@ -44,7 +44,7 @@ Clone the repository and enter the project folder:
 ```bash
 git clone https://github.com/Nina-cyber1/pract.git
 cd pract
-
+```bash
 Place your Microsoft 365 audit log CSV file in this folder. The file should have a column named `AuditData` with JSON-formatted strings.
 
 Example filename:  
