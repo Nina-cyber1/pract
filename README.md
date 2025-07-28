@@ -47,7 +47,7 @@ You also need to install required Python libraries. On most systems, you can run
 pip install -r requirements.txt
 pip install matplotlib
 
-
+---
 ## How to run the analysis
 
 1. Clone the repository and enter the folder:
