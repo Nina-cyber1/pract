@@ -46,7 +46,7 @@ Make sure Python and `pip` are installed.
 
 ### 2. Install required libraries
 
-```bash
-pip install pandas
 
+```bash
+pip install -r requirements.txt
 
