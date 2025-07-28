@@ -1,80 +1,58 @@
-import os
 import pandas as pd
 import json
 
-DATA_DIR = "data"
-OUTPUT_DIR = "outputs"
+# Step 1: Load the CSV, skipping the first line
+df = pd.read_csv("20200604_unified_auditlogs.csv", skiprows=1)
 
-def load_logs(filename):
-    """Load the TSV log file."""
-    path = os.path.join(DATA_DIR, filename)
-    df = pd.read_csv(path, delimiter='\t')
-    print(f"Loaded {len(df)} records from {filename}")
-    return df
+# Step 2: Remove rows where AuditData is missing
+df = df[df['AuditData'].notna()]
 
-def parse_audit_data_column(df):
-    """Parse JSON strings in AuditData column into expanded DataFrame columns."""
-    # Parse JSON in AuditData column safely
-    audit_data_parsed = df['AuditData'].apply(json.loads)
+# Step 3: Parse AuditData JSON into separate fields
+def parse_audit_json(row):
+    try:
+        data = json.loads(row)
+        return {
+            'CreationTime': data.get('CreationTime'),
+            'UserId': data.get('UserId'),
+            'Operation': data.get('Operation'),
+            'ResultStatus': data.get('ResultStatus'),
+            'ClientIP': data.get('ClientIP'),
+            'UserAgent': next(
+                (item['Value'] for item in data.get('ExtendedProperties', []) if item['Name'] == 'UserAgent'), 
+                None
+            )
+        }
+    except Exception:
+        return None
 
-    # Extract fields safely with fallback None
-    df['UserId'] = audit_data_parsed.apply(lambda x: x.get('UserId'))
-    df['ClientIP'] = audit_data_parsed.apply(lambda x: x.get('ClientIP'))
-    df['ResultStatus'] = audit_data_parsed.apply(lambda x: x.get('ResultStatus'))
-    df['CreationTime'] = audit_data_parsed.apply(lambda x: x.get('CreationTime'))
-    df['Operation'] = audit_data_parsed.apply(lambda x: x.get('Operation'))
-    df['UserAgent'] = audit_data_parsed.apply(lambda x: 
-        next((item['Value'] for item in x.get('ExtendedProperties', []) if item['Name'] == 'UserAgent'), None))
-    return df
+parsed_rows = df['AuditData'].apply(parse_audit_json)
+parsed_df = pd.DataFrame(parsed_rows.tolist())
 
-def find_successful_logins(df):
-    """Filter successful UserLoggedIn events."""
-    return df[(df['Operation'] == 'UserLoggedIn') & (df['ResultStatus'] == 'Succeeded')]
+# Step 4: Drop rows that failed to parse
+parsed_df = parsed_df.dropna(subset=['Operation'])
 
-def find_failed_logins(df):
-    """Filter failed UserLoggedIn events."""
-    return df[(df['Operation'] == 'UserLoggedIn') & (df['ResultStatus'] != 'Succeeded')]
+# Step 5: Filter login events
+successful_logins = parsed_df[parsed_df['Operation'] == 'UserLoggedIn']
+failed_logins = parsed_df[parsed_df['Operation'] == 'UserLoginFailed']
 
-def find_suspicious_failed_logins(df, threshold=2):
-    """Find users with failed login attempts above a threshold."""
-    failed = find_failed_logins(df)
-    counts = failed['UserId'].value_counts()
-    suspicious = counts[counts > threshold]
-    return suspicious
+# Step 6: Identify suspicious failed logins (same IP with many failures)
+suspicious_ips = failed_logins['ClientIP'].value_counts()
+suspicious_ips = suspicious_ips[suspicious_ips > 3].index.tolist()
+suspicious_failed_logins = failed_logins[failed_logins['ClientIP'].isin(suspicious_ips)]
 
-def save_dataframe(df, filename):
-    """Save DataFrame to CSV in outputs directory."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    path = os.path.join(OUTPUT_DIR, filename)
-    df.to_csv(path, index=False)
-    print(f"Saved {filename} with {len(df)} records.")
+# Step 7: Save results
+successful_logins.to_csv("successful_logins.csv", index=False)
+failed_logins.to_csv("failed_logins.csv", index=False)
+suspicious_failed_logins.to_csv("suspicious_failed_logins.csv", index=False)
 
-def save_series(series, filename):
-    """Save pandas Series as CSV with UserId and Count columns."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    df_out = series.rename_axis('UserId').reset_index(name='Count')
-    path = os.path.join(OUTPUT_DIR, filename)
-    df_out.to_csv(path, index=False)
-    print(f"Saved {filename} with {len(series)} records.")
+# Step 8: Print suspicious emails with failure counts
+print("\nSuspicious email addresses and number of failed login attempts:")
+suspicious_counts = suspicious_failed_logins['UserId'].value_counts()
+for email, count in suspicious_counts.items():
+    print(f"- {email}: {count} failed attempts")
 
-def main():
-    log_file = "m365_unified_audit_log.tsv"  # change to your file name
-    df = load_logs(log_file)
-    df = parse_audit_data_column(df)
-
-    # Successful logins
-    successful_logins = find_successful_logins(df)
-    save_dataframe(successful_logins[['CreationTime', 'UserId', 'ClientIP', 'UserAgent']], "successful_logins.csv")
-
-    # Failed logins
-    failed_logins = find_failed_logins(df)
-    save_dataframe(failed_logins[['CreationTime', 'UserId', 'ClientIP', 'UserAgent']], "failed_logins.csv")
-
-    # Suspicious users with multiple failed logins
-    suspicious_users = find_suspicious_failed_logins(df, threshold=2)
-    save_series(suspicious_users, "suspicious_failed_logins.csv")
-
-    print("\nAnalysis complete!")
-
-if __name__ == "__main__":
-    main()
+print("\nAnalysis complete!")
+print(f"✔️ Parsed {len(parsed_df)} records.")
+print(f"✔️ Saved {len(successful_logins)} successful logins.")
+print(f"✔️ Saved {len(failed_logins)} failed logins.")
+print(f"✔️ Saved {len(suspicious_failed_logins)} suspicious failed logins.")
