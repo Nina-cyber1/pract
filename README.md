@@ -78,5 +78,10 @@ pip install matplotlib
 ```
 
 ## Output
-This code generates suspicious users, successful and failed logins, 
+This code generates suspicious users, successful and failed logins, and a bar graph
 
+Additional notes:
+
+    If you want to build the LaTeX report, you can run:
+
+pdflatex report.tex
