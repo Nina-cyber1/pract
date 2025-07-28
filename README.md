@@ -42,15 +42,4 @@ Make sure Python 3 and `pip` are installed. Then run:
 
 ```bash
 pip install -r requirements.txt
-##Run it:
-python3 m365_parser.py 20200604_unified_auditlogs.csv
-
-These files will be saved in the current working directory:
-
-successful_logins.csv – All successful login attempts
-
-failed_logins.csv – All failed login attempts
-
-suspicious_failed_logins.csv – Failed logins with >3 attempts from same IP
-
-summary.txt – Summary of findings printed by the script
+run: python3 m365_parser.py 20200604_unified_auditlogs.csv
