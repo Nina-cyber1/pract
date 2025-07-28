@@ -35,6 +35,15 @@ Place your Microsoft 365 audit log CSV file in the root of the project.
 > ⚠️ **Note**: The CSV must be exported from Microsoft Purview and contain a column called `AuditData` with JSON-formatted strings.
 
 ---
+These files will be saved in the current working directory:
+
+successful_logins.csv – All successful login attempts
+
+failed_logins.csv – All failed login attempts
+
+suspicious_failed_logins.csv – Failed logins with >3 attempts from same IP
+
+summary.txt – Summary of findings printed by the script
 
 ## ⚙️ Installation
 
