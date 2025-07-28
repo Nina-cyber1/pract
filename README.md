@@ -6,7 +6,7 @@
 
 ---
 
-## 📘 Project Overview
+##  Project Overview
 
 This project focuses on analyzing Microsoft 365 audit log data to identify and summarize key user and system activities. The goal is to provide clear, human-readable reports that can support security investigations and compliance monitoring. 
 
@@ -21,7 +21,7 @@ Key areas of focus include:
 
 ---
 
-## 🛠️ Tools & Technologies
+##  Tools & Technologies
 
 - **Python 3.x**
 - `pandas` for data manipulation
@@ -31,7 +31,7 @@ Key areas of focus include:
 
 ---
 
-## 📁 Project Structure
+## 📁Project Structure
 m365-log-analysis/
 ├── data/ # Sample or anonymized log files
 ├── scripts/ # Python scripts for parsing and analysis
