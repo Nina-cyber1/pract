@@ -1,69 +1,88 @@
-\documentclass{article}
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{geometry}
 \geometry{margin=1in}
-\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{caption}
 
-\title{Microsoft 365 Log Analysis Internship Project}
-\author{Nina Liu}
-\date{Summer 2025}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\title{\bf Detecting Business Email Compromise:\\ A Behavioral Analysis of Microsoft 365 Audit Logs}
+\author{Nina Liu \\ Internship Project at LMG \\ Summer 2025}
+\date{}
 
 \begin{document}
 
 \maketitle
 
-\section*{Project Overview}
+\begin{abstract}
+With the increasing reliance on cloud-based platforms, such as Microsoft 365, cybersecurity has become a critical field of practice. This research paper underlines the importance of exploring and understanding how Microsoft 365 Unified Audit Logs can be leveraged to detect and analyze malicious activities, such as Business Email Compromise. During my internship at LMG, with the help of my mentor, I developed a Python-based tool that parses and summarizes audit logs to extract valuable insights including log in events, mailbox accesses, forwarding rule changes, file downloads, and more. I wrote three codes: One that parses the data, showing failed/successful login attempts, and the other two to detect more complex events such as authentication events, mail forwarding rules, mail access events, file access/download events, and MFA alteration events. A table may be generated for each event for visuals. This project demonstrates the significance of cybersecurity monitoring in real-world enterprise environments. 
+\end{abstract}
 
-This internship project involved analyzing Microsoft 365 Unified Audit Log data provided by LMG. The goal was to extract login events, detect failed login attempts, identify suspicious IP addresses, and generate readable reports to aid cybersecurity investigations.
+\section{Introduction}
 
-\section*{Data Processing and Methods}
+Cybersecurity is a constantly evolving discipline that protects digital environments from security threats. Although cybersecurity has evolved to get better, so do malicious attacks. According to LMG, cyber-attack criminals are using new, smarter ways to trick people. One of the most prevalent threats mentioned is Business Email Compromise (BEC), where attackers gain access to corporate email accounts and use them to exploit and sometimes impersonate a trusted person to steal sensitive data. 
 
-The audit logs were supplied in CSV format, with each row containing JSON-formatted strings under the column \texttt{AuditData}. Using Python and the \texttt{pandas} library, the JSON data was parsed to extract relevant fields including user ID, operation type, client IP address, and timestamp.
+These attacks can go undetected and last for weeks or even months, as cyber criminals use social engineering. AI has also been evolving very rapidly and can be used maliciously (WormGpt) such as creating deep-fake voice/videos. Which can be used to automate phishing, and deceive victims more effectively.
 
-Login events were filtered by operation type:
-\begin{itemize}
-    \item \texttt{UserLoggedIn} for successful logins
-    \item \texttt{UserLoginFailed} for failed logins
-\end{itemize}
+Organizations are increasingly migrating their operations to the cloud to enhance accessibility, scalability, and efficiency. Cloud computing allows users to store and process data on remote servers. One widely adopted cloud platform used in the business world is Microsoft 365 (M365). While the shift to cloud brings many advantages, it also introduced new cybersecurity challenges. Since cloud services are accessible anywhere with an internet connection, it makes it an attractive target for cybercriminals. In a BEC attack, an attacker might: log in from suspicious locations or IPs, set up mailbox forwarding rules to exfiltrate data, access sensitive files or send internal phishing emails, or attempt to bypass MFA or disable security alerts. These actions can sometimes be subtle and go unnoticed without proper log analysis.
 
-Suspicious failed login attempts were identified as those originating from the same IP address with more than three failures.
+To help defend against these threats, Microsoft 365 has a feature known as the Unified Audit Log, which records detailed user and administrator activities across M365. These logs can include information such as login attempts, file accesses, mailbox rules, data downloads, and more. However, the raw logs are stored in a JSON format that is tedious to read by humans. M365’s audit logs provide a detailed trail of events that, when correctly parsed, can reveal these attack patterns. 
 
-\section*{Results}
+This project bridges that gap by extracting key indicators from the logs and turning them clearer and easily readable. 
 
-A total of \textbf{637} audit records were parsed. Out of these, there were:
 
-\begin{itemize}
-    \item \textbf{17} successful login events
-    \item \textbf{582} failed login attempts
-    \item \textbf{581} suspicious failed login attempts originating from IPs with more than 3 failures
-\end{itemize}
+\section{Methods}
 
-\subsection*{Suspicious Email Addresses}
+During my internship with LMG, I developed a series of Python scripts aimed at analyzing Microsoft 365 Unified Audit Logs to detect potential signs of malicious activity such as unauthorized access, email compromise, and suspicious file behavior. Early in the project, the real audit log sample I intended to use became corrupted, and due to technical issues, my mentor was unable to provide a replacement log immediately. As a result, the project advanced in structured phases, beginning with smaller test datasets and gradually evolving to handle more complex scenarios as full log access became available.
 
-The top 10 suspicious email addresses with the highest number of failed login attempts were:
+\subsection{Phase 1: \texttt{simple\_code.py}}
 
-\begin{itemize}
-    \item \texttt{ademin@hackmeinc.com}: 580 failed attempts
-    \item \texttt{AzureADademin@hackmeinc.com}: 1 failed attempt
-    % Add your actual top email results here
-\end{itemize}
+The first code I built served as a foundation proof of concept, designed to load a small, fake Microsoft 365 audit log CVS file (only about 10 rows of emails) chatgpt generated for me - because I did not have the actual log at this time - The basic log parser was able to parse the AuditData JSON field embedded in each row, extract and count successful and failed authentication events, and output a summary to the console showing: The number of failed logins, The number of successful logins, and the timestamps and user IDs associated with each. This phase was focused on understanding the structure of M365 logs and used as a foundation for the other scripts. 
 
-\section*{Visualization}
+\subsection{Phase 2: \texttt{m365\_parser.py}}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\linewidth]{suspicious_logins_bar_chart.png}
-    \caption{Top 10 Suspicious Email Addresses by Failed Login Attempts}
-    \label{fig:bar_chart}
-\end{figure}
+The second script I created later on, when I got the actual m365 log was a scalable parser. Using the first script, the second version (m365\_parser.py) was designed to handle larger log files (almost 1000 rows of data). The key improvements were: More efficient use of pandas or scalable data ingestion, a loop to parse JSON fields line-by-line and safely handle errors, and results across the entire dataset. This version confirmed the viability of the script for enterprise-level log sizes.
 
-\section*{Conclusion}
+\subsection{Phase 3 \& 4: \texttt{m365\_parser\_cont.py} and \texttt{m365\_parser\_table.py}}
 
-The analysis revealed a significant number of failed login attempts associated with a small set of suspicious email addresses, potentially indicating targeted account attacks or brute-force attempts. This information can be used to prioritize security monitoring and response.
+Finally, the third and fourth script (m365\_parser\_cont.py and m365\_parser\_table.py) greatly expanded the scope of analysis. It not only parsed authentication events, but looked for: Mail forwarding rules, mailbox access events, file access/download events, and event changes like multi-factor Authentication. Additionally m365\_parser\_cont.py can generate a graph via matplotlib showing the number of events by type, and the frequency distribution by user over time (optional). The event-based table visualizer (m365\_parser\_table.py) retained all functionalities of the third version but added formatted tables for each event category and presented a clean display of event metadata.
 
-\bigskip
+\section{Results}
 
-\noindent\textbf{Future Work:} Additional analysis could include temporal patterns of login attempts, integration with IP geolocation, and correlation with other audit log event types.
+\subsection*{Figure 1: Summary of Event Types}
+
+Figure 1: Using sample Microsoft 365 data, the m365\_praser.py script was able to effectively identify and organize key security-related events. The script parsed a total of 637 records and extracted insights by analyzing the AUditData field embedded in each log entry. It successfully identified 599 authentication events, which included both successful and failed login attempts, making it useful for identifying brute-force attacks or account compromise attempts. In addition it flagged file access or download events, an important indicator of potential data exposure or insider activity. While the sample dataset did not contain any mail forwarding rules, mailbox access events, or multi-factor authentication (MFA) changes, the script's ability to parse and categorize these types of events demonstrates its flexibility and value in monitoring a wide range of threat vectors within Microsoft 365 environments.
+
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Screenshot from 2025-07-29 11-02-00.png}
+\captionof{figure}{Authentication Summary Output}
+\end{center}
+
+\subsection*{Figure 2: File Access Details}
+Using the Audit log provided later in the project, the enhanced script was able parse the records and display a detailed summary of events. In addition to identifying authentication events, it identified a pattern linked to a suspicious IP address and user agent. Only one successful login was recorded, and it came from a different IP address, which helped distinguish between legitimate and potentially malicious activity. The script also detected file access and download events, which were displayed in a separate table showing user identities, timestamps, file names, and access types. Notably, the user admin@hackmeinc.com accessed or downloaded multiple documents hosted on SharePoint, including Delicious\_New\_Meatballz.doc and Impossiballz.docx, all from the same IP address. The presence of repeated login failures and selective file access raises red flags for potential business compromise. 
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Screenshot from 2025-07-29 11-02-32.png}
+\includegraphics[width=0.8\textwidth]{Screenshot from 2025-07.png}
+\captionof{figure}{File Access Table Output}
+\end{center}
+
+These findings raise concerns of a potential Business Email Compromise or internal misuse, particularly due to repeated login failures and selective file access patterns.
+
+\section{Discussion and Conclusion}
+
+The findings of this project emphasize the power of audit log analysis in identifying early-stage threats within cloud environments like Microsoft 365. By developing Python scripts that convert raw JSON logs into structured formats, I was able to reveal key behavioral indicators—such as repeated failed logins and targeted file access.
+
+The results of this project highlight the importance of log analysis in identifying early indicators of malicious activity and cyber threats within cloud-based environments like Microsoft 365. By building on a series of python scripts, I was able to develop tools that efficiently parse large columns of audit data to reveal and extract events, presenting them in human-readable format. Using this, it is easy to detect malicious intent like a high number of failed login attempts, authentication attempts, or suspicious file and download access events. The high number of failed events from a single IP address from a user agent suggests the possibility of a cyber-attack or BEC. Although no mail forwarding rules or MFA changes were detected, these are common persistent techniques used by cyber-criminals. The identified pattern of failed login attempts and activities could point to an early-stage cyber attack, something that goes undetected normally. The ability to visually inspect this data in tabular and graphical form greatly improves a security analyst’s ability to detect subtle threats that might otherwise go unnoticed. 
+
+Despite early setbacks with corrupted data, the project fulfilled its goal of producing a working prototype capable of identifying cyber-attacks before they even happen and other anomalies. This experience not only deepened my understanding of Python and log analysis, but emphasized the critical role of cybersecurity tools.
+
 
 \end{document}
