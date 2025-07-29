@@ -22,7 +22,8 @@ This project analyzes Microsoft 365 Unified Audit Log data to:
 - Python 3.x  
 - pandas  
 - Standard libraries: datetime, re, json, etc.  
-- matplotlib (for plotting)  
+- matplotlib (for plotting)
+- `tabulate` (for clean table output)
 - (Optional) LaTeX for report generation  
 - Sample Microsoft 365 Unified Audit Log (CSV format)  
 
@@ -59,8 +60,14 @@ source venv/bin/activate
 
 Install required Python packages:
 ```bash
-pip install pandas matplotlib
+pip install pandas matplotlib tabulate
 ```
+
+If your repo includes a requirements.txt, run:
+```bash
+pip install -r requirements.txt
+```
+
 Run the analysis script:
 ```bash
 python3 m365_parser.py
@@ -74,7 +81,6 @@ Install required Python libraries by running:
 
 ```bash
 pip install -r requirements.txt
-pip install matplotlib
 ```
 
 ## Output
@@ -87,12 +93,17 @@ If you want to build the LaTeX report, you can run:
 
 pdflatex report.tex
 ```
-# Microsoft 365 Audit Log Parser (cont)
+# Microsoft 365 Audit Log Parser (cont) and Table
 
 This Python script parses Microsoft 365 Unified Audit Log CSV exports and outputs human-readable CSVs to investigate:
-
+Follow the same steps and you may run the script with the CSV file as so: 
+```bash
+python3 m365_parser_table.py 20200604_unified_auditlogs.csv
+python3 m365_parser_cont.py 20200604_unified_auditlogs.csv
+```
 - User logins (success/failure)
 - Suspicious IPs
 - Mail forwarding rules
 - File access and downloads
 - MFA-related changes
+- A human-readable table showing the results
