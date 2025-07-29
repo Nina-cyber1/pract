@@ -87,3 +87,12 @@ If you want to build the LaTeX report, you can run:
 
 pdflatex report.tex
 ```
+# Microsoft 365 Audit Log Parser (cont)
+
+This Python script parses Microsoft 365 Unified Audit Log CSV exports and outputs human-readable CSVs to investigate:
+
+- User logins (success/failure)
+- Suspicious IPs
+- Mail forwarding rules
+- File access and downloads
+- MFA-related changes
