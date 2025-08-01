@@ -80,9 +80,32 @@ These findings raise concerns of a potential Business Email Compromise or intern
 
 The findings of this project emphasize the power of audit log analysis in identifying early-stage threats within cloud environments like Microsoft 365. By developing Python scripts that convert raw JSON logs into structured formats, I was able to reveal key behavioral indicators—such as repeated failed logins and targeted file access.
 
-The results of this project highlight the importance of log analysis in identifying early indicators of malicious activity and cyber threats within cloud-based environments like Microsoft 365. By building on a series of python scripts, I was able to develop tools that efficiently parse large columns of audit data to reveal and extract events, presenting them in human-readable format. Using this, it is easy to detect malicious intent like a high number of failed login attempts, authentication attempts, or suspicious file and download access events. The high number of failed events from a single IP address from a user agent suggests the possibility of a cyber-attack or BEC. Although no mail forwarding rules or MFA changes were detected, these are common persistent techniques used by cyber-criminals. The identified pattern of failed login attempts and activities could point to an early-stage cyber attack, something that goes undetected normally. The ability to visually inspect this data in tabular and graphical form greatly improves a security analyst’s ability to detect subtle threats that might otherwise go unnoticed. 
-
+The results of this project highlight the importance of log analysis in identifying early indicators of malicious activity and cyber threats within cloud-based environments like Microsoft 365. By building on a series of python scripts, I was able to develop tools that efficiently parse large columns of audit data to reveal and extract events, presenting them in human-readable format. Using this, it is easy to detect malicious intent like a high number of failed login attempts, authentication attempts, or suspicious file and download access events. The high number of failed events from a single IP address from a user agent suggests the possibility of a cyber-attack or BEC. No mail forwarding rules or MFA changes were detected because this event was not provided in the log, however, the code is ready to parse these as well. (These events are also less common in the real world) The identified pattern of failed login attempts and activities could point to an early-stage cyber attack, something that goes undetected normally. The ability to visually inspect this data in tabular and graphical form greatly improves a security analyst’s ability to detect subtle threats that might otherwise go unnoticed. 
 Despite early setbacks with corrupted data, the project fulfilled its goal of producing a working prototype capable of identifying cyber-attacks before they even happen and other anomalies. This experience not only deepened my understanding of Python and log analysis, but emphasized the critical role of cybersecurity tools.
 
+\section{Sources}
+\begin{thebibliography}{9}
 
+\bibitem{rich2023}
+M. S. Rich, “Enhancing Microsoft 365 Security: Integrating Digital Forensics Analysis to Detect and Mitigate Adversarial Behavior Patterns,” Forensic sciences, vol. 3, no. 3, pp. 394–425, Jul. 2023, doi: https://doi.org/10.3390/forensicsci3030030.
+
+
+\bibitem{letourneau2021}
+
+L.-S. Létourneau, C. El Jabri, M. Frappier, P.-M. Tardif, G. Lépine, and G. Boisvert, “Statistical Approach For Cloud Security: Microsoft Office 365 audit logs case study,” IEEE Xplore, Jun. 01, 2021. https://ieeexplore.ieee.org/abstract/document/9502454/ (accessed Feb. 11, 2023).
+
+
+\bibitem{bec2023}
+“B2B BEC (Back to Basics - Business Email Compromise) | The Forensic Practitioner,” The Forensic Practitioner, 2023, doi: https://doi.org/10.10520/tfp.v2023.n1;journal:journal:tfp;wgroup:string:Publication.
+
+
+\bibitem{skendzic2012}
+A. Skendzic and B. Kovacic, “Microsoft Office 365 - cloud in business environment,” IEEE Xplore, May 01, 2012. https://ieeexplore.ieee.org/abstract/document/6240878
+
+
+\end{thebibliography}
+
+‌
+
+‌
 \end{document}
